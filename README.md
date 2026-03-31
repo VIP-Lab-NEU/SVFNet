@@ -13,9 +13,30 @@ Precise underwater target classification is a prerequisite for autonomous marine
 - **Global Query Spatial Attention (GQSA)**: Adaptively enhances feature representation across modalities.
 - **Comprehensive Evaluation Tools**: Built-in support for PR curves, Confusion Matrices, t-SNE clustering, and Grad-CAM heatmaps.
 
+## 📂 Dataset Preparation 
+
+Organize your dataset in the following structure. 
+
+```text
+## 📂 Dataset Preparation (R-S9)
+
+Organize your dataset in the following structure. 
+
+```text
+dataset_dir/
+├── rgb/                     # RGB images (.jpg or .png)
+├── sonar/                   # Sonar images (.jpg or .png)
+├── train_scenelist.txt      # Training labels
+├── val_scenelist.txt        # Validation labels
+└── test_scenelist.txt       # Testing labels
+```
+
 ## 🛠️ Installation
 
 1. Clone the repository:
    ```bash
-      git clone https://github.com/VIP-Lab-NEU/SVFNet.git
+  git clone https://github.com/VIP-Lab-NEU/SVFNet.git
    cd SVFNet
+   ```
+
+      
