@@ -1,13 +1,4 @@
 # Multi-modal Multi-label Classification Training Configuration
-
-# Basic settings
-basic:
-  seed: 11
-  cuda: true
-  distributed: false
-  sync_bn: false
-  fp16: true
-
 # Dataset configuration
 dataset:
   train_dir: ''
@@ -29,12 +20,12 @@ network:
       small: 'maxvit_small_tf_224'
       base: 'maxvit_base_tf_224'
 
-  feature_dims: [128, 256, 512, 1024]
-  global_dim: 512
-  fusion_dim: 1024
-  projection_dim: 256
+  feature_dims: 
+  global_dim: 
+  fusion_dim: 
+  projection_dim: 
 
-  temperature: 0.1
+  temperature: 
   use_attention_fusion: true
 
   baseline_mode: 'multimodal'
@@ -48,8 +39,8 @@ network:
     stages: [3,4]
     fusion_method: 'attention'
     stage_weights: [1.0]
-    num_heads: 8
-    dropout: 0.3
+    num_heads: 
+    dropout: 
     optional_fusion_layers:
       stage_1: false
       stage_2: false
@@ -58,47 +49,47 @@ network:
 
 # Training configuration
 training:
-  init_epoch: 0
+  init_epoch: 
   freeze_epoch: 
   unfreeze_epoch: 
   freeze_train: true
 
-  freeze_batch_size: 32
-  unfreeze_batch_size: 16
+  freeze_batch_size: 
+  unfreeze_batch_size: 
 
-  init_lr: 0.0005
-  backbone_lr: 0.000025
-  min_lr_ratio: 0.001
-  optimizer_type: 'adam'
-  momentum: 0.937
-  weight_decay: 0.01
+  init_lr: 
+  backbone_lr: 
+  min_lr_ratio: 
+  optimizer_type: ''
+  momentum: 
+  weight_decay: 
 
-  lr_decay_type: 'cos'
-  warmup_epochs: 7
-  warmup_lr_ratio: 0.1
+  lr_decay_type: ''
+  warmup_epochs: 
+  warmup_lr_ratio: 
   
-  lambda_contrastive: 0
-  lambda_classification: 1.0
+  lambda_contrastive: 
+  lambda_classification: 
 
-  lambda_sonar_modal: 0.8
-  lambda_rgb_modal: 0.2
+  lambda_sonar_modal: 
+  lambda_rgb_modal: 
 
   contrastive_decay:
-    start_epoch: 5
-    end_epoch: 10
-    final_weight: 0
+    start_epoch: 
+    end_epoch: 
+    final_weight:
 
 # Strategy configuration
 strategy:
-  save_period: 50
+  save_period: 
   save_dir: 'logs'
-  eval_period: 5
-  num_workers: 8
-  eval_threshold: 0.5
+  eval_period: 
+  num_workers: 
+  eval_threshold: 
 
   early_stopping:
-    patience: 15
-    min_delta: 0.001
+    patience: 
+    min_delta: 
     restore_best_weights: true
 
 # Data augmentation configuration
@@ -106,16 +97,16 @@ augmentation:
   rgb:
     random_horizontal_flip: true
     random_vertical_flip: false
-    random_rotation: 10
+    random_rotation: 
     
     color_jitter: 
-      brightness: 0.3
-      contrast: 0.5
-      saturation: 0.5
-      hue: 0.1
+      brightness: 
+      contrast: 
+      saturation: 
+      hue: 
     
     random_erasing: true
-    random_erasing_p: 0.3
+    random_erasing_p: 
     random_erasing_scale: [0.02, 0.2]
     random_erasing_ratio: [0.3, 3.3]
 
