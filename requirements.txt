@@ -1,0 +1,12 @@
+torch
+torchvision
+PyYAML
+numpy
+opencv-python
+Pillow
+thop
+scikit-learn
+matplotlib
+seaborn
+pandas
+psutil

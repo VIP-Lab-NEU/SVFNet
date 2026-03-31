@@ -1,0 +1,170 @@
+# Multi-modal Multi-label Classification Training Configuration
+
+# Basic settings
+basic:
+  seed: 11
+  cuda: true
+  distributed: false
+  sync_bn: false
+  fp16: true
+
+# Dataset configuration
+dataset:
+  train_dir: ''
+  val_dir: ''
+  test_dir: ''
+  num_classes: 
+  class_names: 
+  input_shape: 
+
+# Network architecture configuration
+network:
+  backbone_type: 'maxvit'
+  model_size: 'tiny'
+  pretrained: true
+  local_weights_path: ""
+  backbone_configs:
+    maxvit:
+      tiny: 'maxvit_tiny_tf_224'
+      small: 'maxvit_small_tf_224'
+      base: 'maxvit_base_tf_224'
+
+  feature_dims: [128, 256, 512, 1024]
+  global_dim: 512
+  fusion_dim: 1024
+  projection_dim: 256
+
+  temperature: 0.1
+  use_attention_fusion: true
+
+  baseline_mode: 'multimodal'
+  
+  fusion_mode: 'rgb_gqsa'
+  use_rgb_gqsa: true
+  
+  # GQSA multi-stage fusion configuration
+  gqsa_stages:
+    enable_multi_stage: true
+    stages: [3,4]
+    fusion_method: 'attention'
+    stage_weights: [1.0]
+    num_heads: 8
+    dropout: 0.3
+    optional_fusion_layers:
+      stage_1: false
+      stage_2: false
+      stage_3: true
+      stage_4: true
+
+# Training configuration
+training:
+  init_epoch: 0
+  freeze_epoch: 
+  unfreeze_epoch: 
+  freeze_train: true
+
+  freeze_batch_size: 32
+  unfreeze_batch_size: 16
+
+  init_lr: 0.0005
+  backbone_lr: 0.000025
+  min_lr_ratio: 0.001
+  optimizer_type: 'adam'
+  momentum: 0.937
+  weight_decay: 0.01
+
+  lr_decay_type: 'cos'
+  warmup_epochs: 7
+  warmup_lr_ratio: 0.1
+  
+  lambda_contrastive: 0
+  lambda_classification: 1.0
+
+  lambda_sonar_modal: 0.8
+  lambda_rgb_modal: 0.2
+
+  contrastive_decay:
+    start_epoch: 5
+    end_epoch: 10
+    final_weight: 0
+
+# Strategy configuration
+strategy:
+  save_period: 50
+  save_dir: 'logs'
+  eval_period: 5
+  num_workers: 8
+  eval_threshold: 0.5
+
+  early_stopping:
+    patience: 15
+    min_delta: 0.001
+    restore_best_weights: true
+
+# Data augmentation configuration
+augmentation:
+  rgb:
+    random_horizontal_flip: true
+    random_vertical_flip: false
+    random_rotation: 10
+    
+    color_jitter: 
+      brightness: 0.3
+      contrast: 0.5
+      saturation: 0.5
+      hue: 0.1
+    
+    random_erasing: true
+    random_erasing_p: 0.3
+    random_erasing_scale: [0.02, 0.2]
+    random_erasing_ratio: [0.3, 3.3]
+
+  sonar:
+    random_horizontal_flip: true
+    random_vertical_flip: false
+    random_rotation: 10
+    
+    color_jitter: 
+      brightness: 0.1
+      contrast: 0.1
+      saturation: 0.05
+      hue: 0.05
+    
+    random_erasing: true
+    random_erasing_p: 0.3
+    random_erasing_scale: [0.02, 0.2]
+    random_erasing_ratio: [0.3, 3.3]
+
+# Logging configuration
+logging:
+  log_dir: 'work_logs'
+  log_level: 'INFO'
+
+# Model presets configuration
+model_presets:
+  maxvit:
+    tiny:
+      network:
+        global_dim: 384
+        feature_dims: [256, 512, 1024]
+      training:
+        freeze_batch_size: 32
+        unfreeze_batch_size: 16
+        init_lr: 0.001
+    small:
+      network:
+        global_dim: 512
+        feature_dims: [384, 768, 1536]
+      training:
+        freeze_batch_size: 24
+        unfreeze_batch_size: 12
+        init_lr: 0.001
+    base:
+      network:
+        global_dim: 768
+        feature_dims: [512, 1024, 2048]
+      training:
+        freeze_batch_size: 16
+        unfreeze_batch_size: 8
+        init_lr: 0.001
+
