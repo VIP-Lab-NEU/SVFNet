@@ -18,7 +18,7 @@ Precise underwater target classification is a prerequisite for autonomous marine
 Organize your dataset in the following structure. 
 
 ```text
-## 📂 Dataset Preparation (R-S9)
+## 📂 Dataset Preparation
 
 Organize your dataset in the following structure. 
 
